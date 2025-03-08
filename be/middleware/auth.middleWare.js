@@ -7,8 +7,8 @@ const apiAuth = async (req, res, next) => {
   const signature = process.env.SIGN_PRIVATE;
   if (!header_token) {
     return res
-      .status(403)
-      .json({ status: 403, message: "mã thông báo không xác định" });
+        .status(403)
+        .json({ status: 403, message: "mã thông báo không xác định" });
   }
   const token = header_token.replace("Bearer ", "");
   try {
