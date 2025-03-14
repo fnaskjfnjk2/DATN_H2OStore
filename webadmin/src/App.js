@@ -1,0 +1,11 @@
+import { useContext, useEffect, useState } from "react";
+import "react-toastify/dist/ReactToastify.css";
+import UserContext from "./context/use.context";
+import APP_LOCAL from "./lib/localStorage";
+import { RouterProvider } from "react-router-dom";
+import AppRoute from "./route";
+import { ToastContainer } from "react-toastify";
+import Loading from "./modules/components/loading/Loading";
+import ToastApp from "./lib/notification/Toast";
+import Modal from "./modules/components/modal/Index";
+import { KEY_CONTEXT_USER } from "./context/use.reducer";
