@@ -115,6 +115,7 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
+  // console.log("a")
   try {
     const { username, password } = req.body;
     const signPrivate = process.env.SIGN_PRIVATE;
