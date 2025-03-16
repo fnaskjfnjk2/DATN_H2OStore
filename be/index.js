@@ -7,6 +7,7 @@ const path = require("path");
 const db = require("./models");
 
 const admin = require("./route/admin.route");
+const user = require("./route/user.route");
 const accounts = require("./route/account.route");
 const color = require("./route/color.route");
 const trademark = require("./route/trademark.route");
@@ -14,13 +15,16 @@ const origin = require("./route/origin.route");
 const material = require("./route/material.route");
 const product = require("./route/product.route");
 const discount = require("./route/discount.route");
+const address = require("./route/address.route");
+const cart = require("./route/cart.route");
+const order = require("./route/order.route");
 
 const bodyParser = require("body-parser");
 
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000","http://localhost:3002"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
@@ -42,12 +46,16 @@ app.get("/", (req, res) => {
 
 app.use("/", accounts);
 app.use("/admin", admin);
+app.use("/user", user);
 app.use("/color", color);
 app.use("/trademark", trademark);
 app.use("/origin", origin);
 app.use("/material", material);
 app.use("/product", product);
 app.use("/discount", discount);
+app.use("/address", address);
+app.use("/cart", cart);
+app.use("/order", order);
 
 db.sequelize.sync().then(() => {
   app.listen(PORT, () => {

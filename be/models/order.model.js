@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const Address = sequelize.define(
-    "Address",
+  const Order = sequelize.define(
+    "Order",
     {
       id: {
         type: DataTypes.INTEGER,
@@ -8,52 +8,65 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      address: {
-        // địa chỉ mặc định
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      province: {
-        // tỉnh
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      district: {
-        // huyện
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      commune: {
-        // xã
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      description: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      idCustom: {
-        // id khách hàng
+      orderCode: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      creator: {
-        // người cập nhật
+      userName: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      updater: {
-        // người chỉnh sửa
+      phoneNumber: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      address: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      totalDefault: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      totalPromotion: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      totalPayment: {
         type: DataTypes.STRING,
         allowNull: false,
       },
       status: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      discountCode: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
+      paymentMethod: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      customerCode: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      employeeCode: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      creator: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      deletedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
     },
     {
-      tableName: "Addresses",
+      tableName: "Order",
       charset: "utf8mb4",
       collate: "utf8mb4_general_ci",
       paranoid: true,
@@ -61,5 +74,5 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  return Address;
+  return Order;
 };
