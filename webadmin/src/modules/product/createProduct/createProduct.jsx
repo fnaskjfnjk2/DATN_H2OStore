@@ -173,5 +173,66 @@ const CreateProduct = ({ handleBack }) => {
     
                 return newErrors;
             });
-        }     
+        }
+        const handleChangeSelect = async (selectedOption, name, nameAPI) => {
+            if (!selectedOption) return;
+            const token = APP_LOCAL.getTokenStorage();
+            if (!token) {
+                return ToastApp.warning("Bạn cần phải đăng nhập! ")
+            }
+            setDataCreateProduct(prev => ({
+                ...prev,
+                [name]: selectedOption
+            }));
+    
+            if (selectedOption.__isNew__) {
+                try {
+                    const response = await fetch(`http://localhost:3001/${name}/${nameAPI}`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`,
+                        },
+                        body: JSON.stringify({ name: selectedOption.label }),
+                    });
+                    const data = await response.json();
+    
+                    if (data.status === 200) {
+                        if (name === 'trademark') {
+                            const newTrademark = { label: selectedOption.label, value: selectedOption.label };
+                            setTrademark(prevTrademark => [...prevTrademark, newTrademark]);
+                            setDataCreateProduct(prev => ({
+                                ...prev,
+                                trademark: selectedOption
+                            }));
+                            ToastApp.success("Thêm thương hiệu thành công!");
+                        }
+                        if (name === 'origin') {
+                            const newOrigin = { label: selectedOption.label, value: selectedOption.label };
+                            setOrigin(prevTrademark => [...prevTrademark, newOrigin]);
+                            setDataCreateProduct(prev => ({
+                                ...prev,
+                                origin: selectedOption
+                            }));
+                            ToastApp.success("Thêm xuất xứ thành công!");
+                        }
+                        if (name === 'material') {
+                            const newMaterial = { label: selectedOption.label, value: selectedOption.label };
+                            setMaterial(prevTrademark => [...prevTrademark, newMaterial]);
+                            setDataCreateProduct(prev => ({
+                                ...prev,
+                                material: selectedOption
+                            }));
+                            ToastApp.success("Thêm xuất xứ thành công!");
+                        }
+    
+                    } else {
+                        ToastApp.error(data.message);
+                    }
+                } catch (error) {
+                    ToastApp.error(error.message)
+                }
+            }
+        }
+         
 };    
