@@ -70,4 +70,25 @@ const CreateProduct = ({ handleBack }) => {
                 console.log("Lỗi web get list color: ", error)
             }
         }
+        const getTrademark = async () => {
+            try {
+                const response = await fetch(`http://localhost:3001/trademark/getTrademark`, {
+                    headers: {
+                        Authorization: `Bearer`,
+                    }
+                })
+                if (response.status === 200) {
+                    const data = await response.json()
+                    const formattedTrademark = data?.data.map((trademark) => ({
+                        label: trademark.name,
+                        value: trademark.brandCode,
+                    }));
+                    setTrademark(formattedTrademark)
+                } else {
+                    ToastApp.error(response.message)
+                }
+            } catch (error) {
+                console.log("Lỗi web get list trademark: ", error)
+            }
+        }
 };    
