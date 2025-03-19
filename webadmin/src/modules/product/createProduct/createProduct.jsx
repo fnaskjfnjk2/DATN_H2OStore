@@ -407,5 +407,24 @@ const CreateProduct = ({ handleBack }) => {
             }),
             option: (provided) => ({ ...provided, colors: "black" })
         }
-        console.log(imagePreview)        
+        console.log(imagePreview)
+        return (
+            <div className='CreateProduct-container'>
+                <table className='header-table'>
+                    <thead>
+                        <tr>
+                            <th colSpan='1'>
+                                <div className='headerCreateProduct'>
+                                    <div className='button-back-product'>
+                                        <button onClick={handleBack}>Quay lại</button>
+                                    </div>
+                                    <span>Thêm sản phẩm</span>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+                
+            </div>
+        );        
 };    
