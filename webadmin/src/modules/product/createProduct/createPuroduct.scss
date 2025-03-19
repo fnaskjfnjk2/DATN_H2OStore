@@ -95,5 +95,18 @@
       margin-right: 10px;
       height: px;
     }
+    .delete-button:hover {
+      background-color: darkred;
+    }
+    .file_inputs {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+    }
   
+    .file_inputs div {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
   }
