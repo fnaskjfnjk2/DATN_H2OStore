@@ -130,4 +130,20 @@
     .btn_image:hover {
       background-color: #0056b3;
     }
+
+    .image {
+      margin-top: 10px;
+    }
+  
+    .image img {
+      border-radius: 5px;
+      border: 1px solid #ddd;
+      object-fit: cover;
+    }
+    .btn_submit {
+      display: flex;
+      justify-content: flex-end;
+      margin-right: 20rem;
+      margin-top: 2rem;
+    }
   }
