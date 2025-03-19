@@ -462,11 +462,51 @@ const CreateProduct = ({ handleBack }) => {
                                         noOptionsMessage={() => "Không tìm thấy thương hiệu"} />
                                 </div>
                             </div>
-                            
+                            <div className='item_origin input-product'>
+                            <label>Xuất xứ</label>
+                            <div className='select-item'>
+                                <Select
+                                    options={origin}
+                                    styles={customStyles}
+                                    onChange={(selectedOption) => handleChangeSelect(selectedOption, "origin", "createOrigin")}
+                                    isClearable
+                                    isSearchable
+                                    placeholder="Chọn hoặc nhập xuất xứ mới ..."
+                                    value={dataCreateProduct.origin}
+                                    onKeyDown={(e) => {
+                                        if (e.key === "Enter" && e.target.value) {
+                                            const newOption = { label: e.target.value, value: e.target.value, __isNew__: true };
+                                            handleChangeSelect(newOption, "origin", "createOrigin");
+                                        }
+                                    }}
+                                    noOptionsMessage={() => "Không tìm thấy thương hiệu"} />
+                            </div>
+
+                            </div>
+                            <div className='item_material input-product'>
+                                <label>Chất liệu</label>
+                                <div className='select-item'>
+                                    <Select
+                                        options={material}
+                                        styles={customStyles}
+                                        onChange={(selectedOption) => handleChangeSelect(selectedOption, "material", "createMaterial")}
+                                        isClearable
+                                        isSearchable
+                                        placeholder="Chọn hoặc nhập chất liệu mới ..."
+                                        value={dataCreateProduct.material}
+                                        onKeyDown={(e) => {
+                                            if (e.key === "Enter" && e.target.value) {
+                                                const newOption = { label: e.target.value, value: e.target.value, __isNew__: true };
+                                                handleChangeSelect(newOption, "material", "createMaterial");
+                                            }
+                                        }}
+                                        noOptionsMessage={() => "Không tìm thấy chất liệu"} />
+                                </div>
+                            </div>
                         </div>
                         
                     </form>
             </div>
-            </div>
+        </div>
         );        
 };    
