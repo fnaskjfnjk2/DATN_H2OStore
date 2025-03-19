@@ -91,4 +91,26 @@ const CreateProduct = ({ handleBack }) => {
                 console.log("Lỗi web get list trademark: ", error)
             }
         }
+
+        const getOrigin = async () => {
+            try {
+                const response = await fetch(`http://localhost:3001/origin/getOrigin`, {
+                    headers: {
+                        Authorization: `Bearer`,
+                    }
+                })
+                if (response.status === 200) {
+                    const data = await response.json()
+                    const formattedOrigin = data?.data.map((origin) => ({
+                        label: origin.name,
+                        value: origin.originCode,
+                    }));
+                    setOrigin(formattedOrigin)
+                } else {
+                    ToastApp.error(response.message)
+                }
+            } catch (error) {
+                console.log("Lỗi web get list trademark: ", error)
+            }
+        }       
 };    
