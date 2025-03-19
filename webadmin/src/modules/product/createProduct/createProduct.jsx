@@ -391,5 +391,21 @@ const CreateProduct = ({ handleBack }) => {
             } catch (error) {
                 console.log("Lỗi: ", error)
             }
-        }        
+        }
+     useEffect(() => {
+            getColor();
+            getTrademark();
+            getMaterial();
+            getOrigin();
+        }, [])
+        const customStyles = {
+            control: (provided) => ({
+                ...provided,
+                borderRadius: "8px",
+                boxShadow: "none",
+                textAlign: "left"
+            }),
+            option: (provided) => ({ ...provided, colors: "black" })
+        }
+        console.log(imagePreview)        
 };    
