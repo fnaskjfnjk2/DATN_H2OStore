@@ -112,5 +112,26 @@ const CreateProduct = ({ handleBack }) => {
             } catch (error) {
                 console.log("Lỗi web get list trademark: ", error)
             }
-        }       
+        } 
+        const getMaterial = async () => {
+            try {
+                const response = await fetch(`http://localhost:3001/material/getMaterial`, {
+                    headers: {
+                        Authorization: `Bearer`,
+                    }
+                })
+                if (response.status === 200) {
+                    const data = await response.json()
+                    const formattedMaterial = data?.data.map((material) => ({
+                        label: material.name,
+                        value: material.materialCode,
+                    }));
+                    setMaterial(formattedMaterial)
+                } else {
+                    ToastApp.error(response.message)
+                }
+            } catch (error) {
+                console.log("Lỗi web get list material: ", error)
+            }
+        }      
 };    
