@@ -40,4 +40,37 @@
         width: 100px;
         height: 35px;
       }
+    
+      .inactive-product {
+        background-color: rgb(255, 62, 62);
+        color: white;
+        border: none;
+        border-radius: 3px;
+        width: 100px;
+        height: 35px;
+      }
+    
+      .header-table th {
+        position: relative;
+    
+        background-color: #f2f2f2;
+        font-weight: bold;
+        padding: 8px;
+        border: 1px solid #ddd;
+        text-align: left;
+        border-radius: 8px 8px 0 0;
+      }
+    
+      .purple-line {
+        position: absolute;
+    
+        width: 100%;
+        height: 3px;
+    
+        background-color: #8624db;
+    
+        top: 0;
+    
+        left: 0;
+      }
 }
