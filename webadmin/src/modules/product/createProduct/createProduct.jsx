@@ -617,8 +617,15 @@ const CreateProduct = ({ handleBack }) => {
                                 ) : <div></div>
                         }
                         </div>
+                        <div className='btn_submit'>
+                        <ButtonWed
+                            title={"Thêm sản phẩm"}
+                            onClick={handleSubmit} />
+                        </div>
                     </form>
             </div>
         </div>
         );        
 };    
+
+export default CreateProduct;
