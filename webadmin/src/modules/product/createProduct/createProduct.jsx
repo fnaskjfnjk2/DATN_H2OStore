@@ -286,7 +286,7 @@ const CreateProduct = ({ handleBack }) => {
                 }
             }
         }
-        
+
         const handleImageChange = (e, index) => {
             const file = e.target.files[0];
             if (!file) return;
@@ -310,5 +310,86 @@ const CreateProduct = ({ handleBack }) => {
                 });
                 return newPreview;
             });
-        };     
+        }; 
+        const handleDeleteItem = (index) => {
+            setDataProductDetails((prev) => {
+                const updatedList = prev.filter((_, i) => i !== index);
+                setImagePreview(updatedList.map(item => item.image || null));
+                return updatedList;
+            });
+        };
+        const handleSubmit = async () => {
+            const token = APP_LOCAL.getTokenStorage();
+            let newErrors = { ...listError };
+    
+            for (let key in dataCreateProduct) {
+                if (!dataCreateProduct[key]) {
+                    ToastApp.warning("Vui lòng điền đầy đủ thông tin sản phẩm!");
+                    return;
+                }
+            }
+    
+            if (dataProductDetails.length === 0) {
+                return ToastApp.warning("Cần thêm chi tiết sản phẩm ở khi chọn màu")
+            }
+            for (let item of dataProductDetails) {
+                for (let key in item) {
+                    if (!item[key]) {
+                        ToastApp.warning("Vui lòng điền đầy đủ thông tin chi tiết sản phẩm!");
+                        return;
+                    }
+                }
+            }
+            for (let key in newErrors) {
+                if (newErrors[key]) {
+                    ToastApp.warning("Vui lòng nhập đúng dữ liệu!");
+                    return;
+                }
+            }
+            const checkDuplicateSize = {};
+            for (let item of dataProductDetails) {
+                const { color, size } = item;
+                const key = `${color}-${size}`;
+    
+                if (checkDuplicateSize[key]) {
+                    return ToastApp.warning(`Màu ${color} đã tồn tại kích thước ${size}, vui lòng chọn size khác!`);
+                }
+    
+                checkDuplicateSize[key] = true;
+            }
+            try {
+                const formDataToSend = new FormData();
+                formDataToSend.append('name', dataCreateProduct.name);
+                formDataToSend.append('description', dataCreateProduct.description);
+                formDataToSend.append('trademark', dataCreateProduct.trademark.label);
+                formDataToSend.append('origin', dataCreateProduct.origin.label);
+                formDataToSend.append('material', dataCreateProduct.material.label);
+                dataProductDetails.forEach((item, index) => {
+                    formDataToSend.append(`details[${index}][color]`, item.color);
+                    formDataToSend.append(`details[${index}][colorCode]`, item.colorCode);
+                    formDataToSend.append(`details[${index}][price]`, item.price);
+                    formDataToSend.append(`details[${index}][quantity]`, item.quantity);
+                    formDataToSend.append(`details[${index}][size]`, item.size);
+                    formDataToSend.append(`image`, item.image);
+                });
+    
+                const response = await fetch(`http://localhost:3001/product/createProduct`, {
+                    method: "POST",
+                    headers: {
+                        // "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: formDataToSend,
+                });
+                const data = await response.json();
+                if (data.status === 200) {
+                    ToastApp.success(data.message)
+                    clearForm()
+                } else {
+                    ToastApp.warning(data.message)
+                }
+            } catch (error) {
+                console.log("Lỗi: ", error)
+            }
+        }        
 };    
