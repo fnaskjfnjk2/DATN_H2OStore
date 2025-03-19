@@ -23,4 +23,23 @@
         font-size: 12px;
       }
     }
+    form {
+      padding: 10px 10px;
+      height: 100%;
+      width: 100%;
+    }
+    .item-flex {
+      display: flex;
+      gap: 10px;
+    }
+    .input-product {
+      .select-item {
+        flex: 3;
+        margin: 10px 0;
+      }
+      label {
+        font-size: 12px;
+        font-weight: 600;
+      }
+    }
   }
