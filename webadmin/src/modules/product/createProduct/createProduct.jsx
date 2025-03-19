@@ -1,6 +1,12 @@
 import './CreateProduct.scss';
-;
+import InputAdmin from '../../components/input/Input-admin';
 import { useEffect, useState } from 'react';
+import { Validate } from '../../../lib/validate/Validate';
+import { ParseValid } from '../../../lib/validate/ParseValid';
+import ToastApp from '../../../lib/notification/Toast';
+import APP_LOCAL from '../../../lib/localStorage';
+import Select from "react-select";
+import ButtonWed from '../../components/button/Button-admin';
 const CreateProduct = ({ handleBack }) => {
     const [colors, setColors] = useState([]);
         const [trademark, setTrademark] = useState([]);
@@ -40,5 +46,28 @@ const CreateProduct = ({ handleBack }) => {
             });
             setDataProductDetails([]);
             setImagePreview({})
+        }
+    
+        const getColor = async () => {
+            try {
+                const response = await fetch(`http://localhost:3001/color/getColor`, {
+                    headers: {
+                        Authorization: `Bearer`,
+                    }
+                })
+                if (response.status === 200) {
+                    const data = await response.json()
+                    const formattedColors = data?.data.map((color) => ({
+                        label: color.name,
+                        value: color.name,
+                        colorCode: color.colorCode,
+                    }));
+                    setColors(formattedColors)
+                } else {
+                    ToastApp.error(response.message)
+                }
+            } catch (error) {
+                console.log("Lỗi web get list color: ", error)
+            }
         }
 };    
