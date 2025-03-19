@@ -73,4 +73,27 @@
     
         left: 0;
       }
+      .product-table-container {
+        overflow-x: auto;
+        overflow-y: auto;
+        padding: 20px;
+      }
+    
+      .product-table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 1px solid #ddd;
+    
+        border-radius: 0 0 80px 8px;
+      }
+    
+      .product-table th,
+      .product-table td {
+        padding: 8px;
+        border: 1px solid #ddd;
+        text-align: left;
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
 }
