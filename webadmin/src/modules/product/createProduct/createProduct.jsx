@@ -285,5 +285,30 @@ const CreateProduct = ({ handleBack }) => {
                     ToastApp.error(error.message)
                 }
             }
-        }     
+        }
+        
+        const handleImageChange = (e, index) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            if (index < 0 || index >= dataProductDetails.length) return;
+    
+            const objectURL = URL.createObjectURL(file);
+            const updatedColor = dataProductDetails[index].color;
+    
+            setDataProductDetails(prev => prev.map(item =>
+                item.color === updatedColor
+                    ? { ...item, image: file }
+                    : item
+            ));
+    
+            setImagePreview(prev => {
+                const newPreview = { ...prev };
+                dataProductDetails.forEach((item, i) => {
+                    if (item.color === updatedColor) {
+                        newPreview[i] = objectURL;
+                    }
+                });
+                return newPreview;
+            });
+        };     
 };    
