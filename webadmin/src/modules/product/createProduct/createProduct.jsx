@@ -407,5 +407,66 @@ const CreateProduct = ({ handleBack }) => {
             }),
             option: (provided) => ({ ...provided, colors: "black" })
         }
-        console.log(imagePreview)        
+        console.log(imagePreview)
+        return (
+            <div className='CreateProduct-container'>
+                <table className='header-table'>
+                    <thead>
+                        <tr>
+                            <th colSpan='1'>
+                                <div className='headerCreateProduct'>
+                                    <div className='button-back-product'>
+                                        <button onClick={handleBack}>Quay lại</button>
+                                    </div>
+                                    <span>Thêm sản phẩm</span>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+                <div className='form_add'>
+                    <form
+                        onSubmit={(e) => e.preventDefault()}
+                        encType='multipart/form-data'
+                        onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}>
+                        <div className='item-flex '>
+                            <div className='item_name input-product'>
+                                <InputAdmin
+                                    name={"name"}
+                                    label={"Tên sản phẩm"}
+                                    placeholder={"Nhập tên sản phẩm ..."}
+                                    validate={'required||minLength:1||maxLength:30'}
+                                    type={'text'}
+                                    onChange={onChangeInput}
+                                    value={dataCreateProduct.name}
+                                />
+                                {listError.name && <label className='error-text'>{listError.name}</label>}
+                            </div>
+                            <div className='item_trademark input-product'>
+                                <label>Thương hiệu</label>
+                                <div className='select-item'>
+                                    <Select
+                                        options={trademark}
+                                        styles={customStyles}
+                                        onChange={(selectedOption) => handleChangeSelect(selectedOption, "trademark", "createTrademark")}
+                                        isClearable
+                                        isSearchable
+                                        placeholder="Chọn hoặc nhập thương hiệu mới ..."
+                                        value={dataCreateProduct.trademark}
+                                        onKeyDown={(e) => {
+                                            if (e.key === "Enter" && e.target.value) {
+                                                const newOption = { label: e.target.value, value: e.target.value, __isNew__: true };
+                                                handleChangeSelect(newOption, "trademark", "createTrademark");
+                                            }
+                                        }}
+                                        noOptionsMessage={() => "Không tìm thấy thương hiệu"} />
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                    </form>
+            </div>
+            </div>
+        );        
 };    
