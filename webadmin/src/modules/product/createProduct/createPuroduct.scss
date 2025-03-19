@@ -42,4 +42,24 @@
         font-weight: 600;
       }
     }
+    .item_name {
+      flex: 6;
+    }
+    .item_trademark {
+      flex: 3;
+    }
+    .item_origin {
+      flex: 3;
+    }
+    .item_material {
+      flex: 3;
+    }
+    textarea {
+      margin: 10px 0;
+      min-width: 100%;
+      min-height: 10rem;
+      max-width: 60rem;
+      max-height: 20rem;
+      padding: 5px;
+    }
   }
