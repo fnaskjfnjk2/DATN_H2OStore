@@ -133,5 +133,45 @@ const CreateProduct = ({ handleBack }) => {
             } catch (error) {
                 console.log("Lỗi web get list material: ", error)
             }
-        }      
+        } 
+     const onChangeInput = (e, index) => {
+            const { name, value } = e.target;
+            setDataCreateProduct({ ...dataCreateProduct, [name]: value });
+    
+            setDataProductDetails(prev => {
+                if (name === "colorCode") {
+                    const updatedColor = prev[index].color;
+                    return prev.map(item =>
+                        item.color === updatedColor ? { ...item, colorCode: value } : item
+                    );
+                } else {
+                    return prev.map((detail, i) =>
+                        i === index ? { ...detail, [name]: value } : detail
+                    );
+                }
+            });
+    
+            const inputValue = value.trim();
+            const valid = e.target.getAttribute('validate');
+            const validObject = ParseValid(valid);
+    
+            const error = Validate(
+                name,
+                inputValue,
+                validObject,
+            );
+    
+            const newListError = { ...listError, [name]: error };
+            setListError(newListError);
+    
+            setListErrorDetails(prevErrors => {
+                const newErrors = { ...prevErrors };
+                if (!newErrors[index]) {
+                    newErrors[index] = {};
+                }
+                newErrors[index][name] = error;
+    
+                return newErrors;
+            });
+        }     
 };    
