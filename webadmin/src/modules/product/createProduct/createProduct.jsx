@@ -504,7 +504,16 @@ const CreateProduct = ({ handleBack }) => {
                                 </div>
                             </div>
                         </div>
-                        
+                        <div className='textarea input-container'>
+                        <textarea
+                            placeholder={"Nhập mô tả sản phẩm ..."}
+                            onChange={onChangeInput}
+                            name={'description'}
+                            value={dataCreateProduct.description || ''}
+                            validate={'required'}
+                        ></textarea>
+                        {listError.description && <label className='error-text'>{listError.description}</label>}
+                        </div>
                     </form>
             </div>
         </div>
