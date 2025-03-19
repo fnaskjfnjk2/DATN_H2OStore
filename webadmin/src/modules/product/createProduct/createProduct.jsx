@@ -514,6 +514,109 @@ const CreateProduct = ({ handleBack }) => {
                         ></textarea>
                         {listError.description && <label className='error-text'>{listError.description}</label>}
                         </div>
+                        <div>
+                        <label className='label_color'>Chọn màu</label>
+                        <div className='select'>
+                            <Select
+                                styles={customStyles}
+                                options={colors}
+                                onChange={handleChangeColor}
+                                isClearable
+                                isSearchable
+                                placeholder="Chọn hoặc nhập màu mới ..."
+                                value={selectedColor}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter" && e.target.value) {
+                                        const newOption = { label: e.target.value, value: e.target.value, __isNew__: true };
+                                        handleChangeColor(newOption);
+                                    }
+                                }}
+                                noOptionsMessage={() => "Không tìm thấy màu"}
+                            />
+                        </div>
+                        {
+                            dataProductDetails.length > 0 ?
+                                (
+                                    dataProductDetails.map((detail, index) => (
+                                        <div key={index} className='item-flex center'>
+                                            <button className="delete-button" onClick={() => handleDeleteItem(index)}>X</button>
+                                            <div className='item_color input-container'>
+                                                <InputAdmin
+                                                    name={"color"}
+                                                    label={"Tên màu"}
+                                                    placeholder={"Nhập tên màu ..."}
+                                                    validate={'required'}
+                                                    type={'text'}
+                                                    onChange={(e) => onChangeInput(e, index)}
+                                                    value={detail.color}
+                                                    readOnly={true}
+                                                />
+                                            </div>
+                                            <div className='item_colorCode input-container'>
+                                                <InputAdmin
+                                                    name={"colorCode"}
+                                                    label={"Mã màu"}
+                                                    placeholder={"Nhập mã màu ..."}
+                                                    validate={'required||checkColor'}
+                                                    type={'text'}
+                                                    onChange={(e) => onChangeInput(e, index)}
+                                                    value={detail.colorCode}
+                                                />
+
+                                                {listErrorDetails[index]?.colorCode && <label className='error-text'>{listErrorDetails[index]?.colorCode}</label>}
+                                            </div>
+                                            <div className='item_quantity input-container'>
+                                                <InputAdmin
+                                                    name={"quantity"}
+                                                    label={"Số lượng"}
+                                                    placeholder={"Nhập số lượng ..."}
+                                                    validate={'required||checkNumber||checkNegative'}
+                                                    type={'number'}
+                                                    onChange={(e) => onChangeInput(e, index)}
+                                                    value={detail.quantity}
+                                                />
+                                                {listErrorDetails[index]?.quantity && <label className='error-text'>{listErrorDetails[index]?.quantity}</label>}
+                                            </div>
+                                            <div className='item_price input-container'>
+                                                <InputAdmin
+                                                    name={"price"}
+                                                    label={"Giá"}
+                                                    placeholder={"Nhập giá sản phẩm ..."}
+                                                    validate={'required||checkNumber||checkNegative'}
+                                                    type={'text'}
+                                                    onChange={(e) => onChangeInput(e, index)}
+                                                    value={detail.price}
+                                                />
+                                                {listErrorDetails[index]?.price && <label className='error-text'>{listErrorDetails[index]?.price}</label>}
+                                            </div>
+                                            <div className='item_size input-container'>
+                                                <InputAdmin
+                                                    name={"size"}
+                                                    label={"Kích thước"}
+                                                    placeholder={"Nhập size sản phẩm ..."}
+                                                    validate={'required||checkNumber||checkNegative'}
+                                                    type={'text'}
+                                                    onChange={(e) => onChangeInput(e, index)}
+                                                    value={detail.size}
+                                                />
+                                                {listErrorDetails[index]?.size && <label className='error-text'>{listErrorDetails[index]?.size}</label>}
+                                            </div>
+                                            <div className="file_inputs">
+                                                <div>
+                                                    <label htmlFor={`file-upload-${index}`} className="btn_image">{imagePreview[index] ? "Chọn ảnh khác" : "Thêm ảnh"}</label>
+                                                    <input id={`file-upload-${index}`} type="file" name="image" onChange={(e) => handleImageChange(e, index)} />
+                                                </div>
+                                                {imagePreview[index] && (
+                                                    <div className="image">
+                                                        <img src={imagePreview[index]} alt="Preview" style={{ width: 100, height: 100 }} />
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    ))
+                                ) : <div></div>
+                        }
+                        </div>
                     </form>
             </div>
         </div>
