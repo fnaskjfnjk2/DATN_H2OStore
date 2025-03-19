@@ -62,4 +62,19 @@
       max-height: 20rem;
       padding: 5px;
     }
+    .textarea {
+      border-radius: 10px;
+      margin-right: 20px;
+    }
+    .error-text {
+      color: red;
+      font-size: 1.2rem;
+      padding: 0.2px;
+      margin-left: 10px;
+      font-weight: 600;
+    }
+    .select {
+      width: 30rem;
+      margin: 10px 0;
+    }
   }
