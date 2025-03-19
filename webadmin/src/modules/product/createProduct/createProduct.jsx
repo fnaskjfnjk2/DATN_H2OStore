@@ -234,5 +234,56 @@ const CreateProduct = ({ handleBack }) => {
                 }
             }
         }
-         
+        const handleChangeColor = async (selectedOption) => {
+
+            if (!selectedOption) return;
+            const token = APP_LOCAL.getTokenStorage();
+            if (!token) {
+                return ToastApp.warning("Bạn cần phải đăng nhập! ")
+            }
+            setSelectedColor(selectedOption);
+    
+    
+            setDataProductDetails(prev => {
+                const existingItem = prev.find(item => item.color === selectedOption.label);
+                const colorCode = selectedOption.colorCode || (existingItem ? existingItem.colorCode : "");
+                const image = existingItem ? existingItem.image : null;
+                return prev.map(item =>
+                    item.color === selectedOption.label
+                        ? { ...item, colorCode, image }
+                        : item
+                ).concat({
+                    quantity: '',
+                    price: '',
+                    color: selectedOption.label,
+                    colorCode,
+                    size: '',
+                    image,
+                });
+            });
+            if (selectedOption.__isNew__) {
+                try {
+                    const response = await fetch(`http://localhost:3001/color/createColor`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`,
+                        },
+                        body: JSON.stringify({ color: selectedOption.label }),
+                    });
+                    const data = await response.json();
+    
+                    if (data.status === 200) {
+                        const newColor = { label: selectedOption.label, value: selectedOption.label, colorCode: "" };
+                        setColors(prevColors => [...prevColors, newColor]);
+                        setSelectedColor(newColor);
+                        ToastApp.success("Thêm màu thành công!");
+                    } else {
+                        ToastApp.error(data.message || "Lỗi khi thêm màu!");
+                    }
+                } catch (error) {
+                    ToastApp.error(error.message)
+                }
+            }
+        }     
 };    
