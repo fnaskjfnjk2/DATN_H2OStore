@@ -1,22 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
-import LayoutWeb from "../modules/layout/LayoutWeb";
-import Main from "../modules/Main";
-import ErrorPage from "../lib/errorpage/ErrorPage";
-import Login from "../modules/auth/Login";
-import User from "../modules/User/User";
-import SignUp from "../modules/auth/SignUp";
-import Product from "../modules/product/Product";
-import Order from "../modules/order/Order";
-import Statistical from "../modules/statistical/Statistical";
-import DiscountCode from "../modules/discount/DiscountCode";
-import LayoutUser from "../modules/client/layout/LayoutUser";
-import SignUpUser from "../modules/auth/SignUpUser";
-import InfoUser from "../modules/client/InfoUser/InfroUser";
-import Cart from "../modules/client/cart/Cart";
-import ProductDetail from "../modules/client/ProductDetail/ProductDetail";
-import TrademarkUser from "../modules/client/trademark/Trademark";
-import OtherTrademark from "../modules/client/otherTrademark/OtherTrademark";
-import OrderUser from "../modules/client/order-user/OrderUser";
+
 
 const AppRoute = (isAuth, accountType) => {
   const route = [
