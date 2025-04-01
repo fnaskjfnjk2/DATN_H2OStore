@@ -199,7 +199,16 @@ const Product = () => {
             </tr>
         )
     }
-    
+    useEffect(() => {
+            if (!searchData.trim()) {
+                setFilteredData(data);
+            } else {
+                const filtered = data.filter((item) =>
+                    item.productName?.toLowerCase().includes(searchData.toLowerCase())
+                );
+                setFilteredData(filtered);
+            }
+        }, [searchData, data]);
 };
 
 export default Product;
