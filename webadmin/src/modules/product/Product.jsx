@@ -109,7 +109,39 @@ const Product = () => {
         })
 
     }
-    
+    const handleDelete = (product, e) => {
+        e.stopPropagation();
+        dispatch({
+            type: KEY_CONTEXT_USER.SHOW_MODAL,
+            payload: {
+                typeModal: 'DELETE_ITEM',
+                dataModal: product?.dataValues?.id,
+                contentModel: "Bạn có chắc chắn muốn xóa sản phẩm " + product?.dataValues?.productDetailCode + " không?",
+                onClickConfirmModel: async () => {
+                    try {
+                        const response = await fetch(`http://localhost:3001/product/delete/${product?.dataValues?.id}`,
+                            {
+                                method: 'GET',
+                                headers: {
+                                    'Authorization': `Bearer`
+                                },
+
+                            });
+                        const data = await response.json();
+                        if (data.status === 200) {
+                            ToastApp.success('Xóa thành công');
+                            setReloadData(true);
+                        } else {
+                            ToastApp.error('Error: ' + data.message);
+                        }
+
+                    } catch (e) {
+                        console.log("Lỗi xóa sản phẩm: ", e)
+                    }
+                },
+            },
+        })
+    }
 };
 
 export default Product;
