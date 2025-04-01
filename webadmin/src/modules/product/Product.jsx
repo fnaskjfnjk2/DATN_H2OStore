@@ -209,6 +209,76 @@ const Product = () => {
                 setFilteredData(filtered);
             }
         }, [searchData, data]);
+    
+        useEffect(() => {
+            getProducts()
+            setReloadData(false)
+        }, [reloadData])
+        console.log(data)
+        return (
+            <div>
+                {navigateCreate ? (
+                    <div>
+                        <CreateProduct handleBack={() => (setNavigateCreate(false), setReloadData(true))} />
+                    </div>
+                ) : (
+                    <div className='product-container'>
+    
+                        <div className='header-table-container'>
+    
+                            <table className="header-table">
+                                <thead>
+                                    <tr>
+                                        <th colSpan="10">
+                                            <div className="purple-line"></div>
+                                            <span>Danh sách sản phẩm</span>
+                                            <div className="search-box">
+                                                <input type="text"
+                                                    placeholder='Tìm kiếm'
+                                                    name='search'
+                                                    value={searchData}
+                                                    onChange={handleInputSearch} />
+                                                <button type="product-button" onClick={() => { setNavigateCreate(true) }}>+ Thêm sản phẩm</button>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div className="product-table-container">
+                            <ModalDetails isOpen={isDialogOpen} onClose={() => setIsDialogOpen(false)} id={idProduct} />
+                            <table className="product-table">
+                                <thead>
+                                    <tr>
+                                        <th>Mã sản phẩm</th>
+                                        <th>Ảnh</th>
+                                        <th>Tên sản phẩm</th>
+                                        <th>Giá</th>
+                                        <th>Số lượng</th>
+                                        <th>Màu</th>
+                                        <th>Size</th>
+                                        <th>Trạng thái</th>
+                                        <th>Hành động</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {filteredData && searchData && filteredData.length > 0 ? (
+                                        filteredData.map((product) => (
+                                            <TableRow product={product} handleEdit={handleEdit} handleDelete={handleDelete} key={product.id} handleClick={handleClickItem} handleClickStatus={handleStatus} />
+                                        ))
+                                    ) : data && data.length > 0 ? (
+                                        data.map((product) => (
+                                            <TableRow product={product} handleEdit={handleEdit} handleDelete={handleDelete} key={product.id} handleClick={handleClickItem} handleClickStatus={handleStatus} />
+                                        ))
+                                    ) : null}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                )}
+    
+            </div>
+        );
 };
 
 export default Product;
