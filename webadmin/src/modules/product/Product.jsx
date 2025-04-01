@@ -167,6 +167,39 @@ const Product = () => {
             dispatch({ type: KEY_CONTEXT_USER.SET_LOADING, payload: false })
         }
     }
+    const TableRow = ({ product, handleEdit, handleDelete, handleClick, handleClickStatus }) => {
+
+        const buttonClass = product?.dataValues?.status === 1 ? 'active-product' : 'inactive-product';
+        const formatter = new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+        });
+        return (
+            <tr onClick={() => { setIsDialogOpen(true); handleClick(product) }}>
+                <td>{product?.dataValues?.productDetailCode}</td>
+                <td><img src={product?.dataValues?.idImage} alt={product.productName} /></td>
+                <td>{product?.productName}</td>
+                <td>{formatter.format(product?.dataValues?.price)}</td>
+                <td>{product?.dataValues?.quantity}</td>
+                <td>{product?.dataValues?.idColor}</td>
+                <td>{product?.sizeName}</td>
+                <td>
+                    <button onClick={(e) => handleClickStatus(e, product?.dataValues?.id)} className={buttonClass}>
+                        {product?.dataValues?.status === 1 ? "Hoạt động" : "Không hoạt động"}
+                    </button>
+                </td>
+                <td>
+                    <button onClick={(e) => handleEdit(product?.dataValues?.id, e)}>
+                        <img src={AppImages.editIcon} alt="Edit" style={{ width: "20px" }} />
+                    </button>
+                    <button onClick={(e) => handleDelete(product, e)}>
+                        <img src={AppImages.deleteIcon} alt="Delete" style={{ width: "20px" }} />
+                    </button>
+                </td>
+            </tr>
+        )
+    }
+    
 };
 
 export default Product;
