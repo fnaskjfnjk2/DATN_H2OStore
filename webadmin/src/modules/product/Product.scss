@@ -149,4 +149,23 @@
         margin-right: 5px;
         width: 100px;
       }
+      .search-box button[type="product-button"] {
+        border-radius: 5px;
+        background-color: #e898f8;
+        width: 200px;
+        height: 40px;
+        margin-left: 5px;
+        color: #ffffff;
+        border: none;
+        transition: background-color 0.3s;
+      }
+    
+      .product-button:hover {
+        background-color: #774682;
+      }
+    
+      .headerCreateProduct {
+        display: flex;
+        align-items: center;
+      }
 }
