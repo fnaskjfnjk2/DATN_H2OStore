@@ -42,9 +42,23 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      
+      updater: {
+        // người chỉnh sửa
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      status: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
     },
-    
+    {
+      tableName: "Addresses",
+      charset: "utf8mb4",
+      collate: "utf8mb4_general_ci",
+      paranoid: true,
+      timestamps: true,
+    }
   );
 
   return Address;
