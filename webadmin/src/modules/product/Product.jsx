@@ -142,6 +142,31 @@ const Product = () => {
             },
         })
     }
+    const handleClickItem = (product) => {
+        setIdProduct(product?.dataValues?.id)
+    }
+
+    const handleStatus = async (e, id) => {
+        e.stopPropagation();
+        try {
+            dispatch({ type: KEY_CONTEXT_USER.SET_LOADING, payload: true })
+            const response = await fetch(`http://localhost:3001/product/statusProduct/${id}`,
+                {
+                    method: 'GET',
+                });
+            const data = await response.json();
+            if (data.status === 200) {
+                ToastApp.success("Cập nhật trạng thái thành công")
+                setReloadData(true)
+            } else {
+                ToastApp.error('Error: ' + data.message);
+            }
+        } catch (e) {
+            console.log("Lỗi", e)
+        } finally {
+            dispatch({ type: KEY_CONTEXT_USER.SET_LOADING, payload: false })
+        }
+    }
 };
 
 export default Product;
