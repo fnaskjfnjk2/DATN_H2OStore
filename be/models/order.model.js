@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const Admin = sequelize.define(
-    "Admin",
+  const Order = sequelize.define(
+    "Order",
     {
       id: {
         type: DataTypes.INTEGER,
@@ -8,62 +8,70 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      employeeCode: {
-        // mã nhân viên
+      orderCode: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      name: {
+      userName: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      sex: {
-        type: DataTypes.STRING,
+      phoneNumber: {
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
       address: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      phoneNumber: {
+      totalDefault: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-<<<<<<< HEAD
-      
-=======
-      email: {
+      totalPromotion: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      position: {
-        // chức vụ
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      dob: {
+      totalPayment: {
         type: DataTypes.STRING,
         allowNull: false,
       },
       status: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      discountCode: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        defaultValue: false,
+      },
+      paymentMethod: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      customerCode: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      employeeCode: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
       },
       creator: {
-        // người tạo
         type: DataTypes.STRING,
         allowNull: false,
       },
-      updater: {
-        // người chỉnh sửa
-        type: DataTypes.STRING,
-        allowNull: false,
+      deletedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
       },
->>>>>>> 37eb1e84b666142d8b3170e47830f8fc359f1384
     },
-    { paranoid: true, timestamps: true }
+    {
+      tableName: "Order",
+      charset: "utf8mb4",
+      collate: "utf8mb4_general_ci",
+      paranoid: true,
+      timestamps: true,
+    }
   );
-
-  return Admin;
+  return Order;
 };
