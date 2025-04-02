@@ -4,7 +4,27 @@ const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 require("dotenv").config;
 
+const getAdmin = async (req, res) => {
+  const signPrivate = process.env.SIGN_PRIVATE;
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+    const decoded = jwt.verify(token, signPrivate);
+    const account = await Account.findOne({ where: { id: decoded.id } });
 
+    if (!account) {
+      return res.json({
+        status: 404,
+        message: "Người dùng không tồn tại",
+      });
+    }
+    return res.json({
+      status: 200,
+      data: account,
+    });
+  } catch (error) {
+    return res.json({ status: 500, message: "Lỗi server" });
+  }
+};
 const getAccountsAdmin = async (req, res) => {
   signPrivate = process.env.SIGN_PRIVATE;
   try {
@@ -119,9 +139,14 @@ const updateAdmin = async (req, res) => {
         message: "Không tìm thấy tài khoản!",
       });
     }
-    await account.update({ name: data.name });
-
     const admin = await Admin.findOne({ where: { id } });
+    if (account.employeeCode !== admin.employeeCode) {
+      return res.json({
+        status: 400,
+        message: "Chỉ có tài khoản chính chủ mới được cập nhật thông tin",
+      });
+    }
+    await account.update({ name: data.name });
     await admin.update({
       name: data.name,
       sex: data.sex,
