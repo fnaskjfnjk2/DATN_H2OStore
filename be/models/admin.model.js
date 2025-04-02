@@ -29,6 +29,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+<<<<<<< HEAD
+      
+=======
       email: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -57,6 +60,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+>>>>>>> 37eb1e84b666142d8b3170e47830f8fc359f1384
     },
     { paranoid: true, timestamps: true }
   );
