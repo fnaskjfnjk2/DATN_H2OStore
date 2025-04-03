@@ -269,29 +269,7 @@ const getClients = async (req, res) => {
       attributes: ["customerCode", "username", "status"],
     });
 
-    const listClientWithUsername = listClients.map((user) => {
-      const account = accounts.find(
-        (acc) => acc.customerCode === user.customerCode
-      );
-      return {
-        ...user.toJSON(),
-        username: account ? account.username : null,
-        status: account ? account.status : null,
-      };
-    });
-    return res.json({
-      status: 200,
-      message: "Thành công",
-      data: listClientWithUsername,
-    });
-  } catch (e) {
-    console.log("Lỗi lấy danh sách người dùng: ", e);
-    return res.json({
-      status: 501,
-      message: "Lỗi server a",
-    });
-  }
-};
+    
 
 module.exports = {
   getAdmin,
