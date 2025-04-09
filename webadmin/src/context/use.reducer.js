@@ -9,16 +9,7 @@ const InitState = {
   language: "",
   cart: [],
 };
-const KEY_CONTEXT_USER = {
-  SET_TOKEN: "SET_TOKEN",
-  SET_ACCOUNT_TYPE: "ACCOUNT_TYPE",
-  SET_LOADING: "SET_LOADING",
-  CLEAR: "CLEAR",
-  SHOW_MODAL: "SHOW_MODAL",
-  HIDE_MODAL: "HIDE_MODAL",
-  SET_LANGUAGE: "SET_LANGUAGE",
-  SET_CART: "SET_CART",
-};
+
 const UserReducer = (state, action) => {
   switch (action.type) {
     case KEY_CONTEXT_USER.SET_TOKEN:
