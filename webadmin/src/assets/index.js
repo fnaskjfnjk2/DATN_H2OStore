@@ -16,5 +16,22 @@ import imgUK from "./image/imgUK.png";
 import logo from "./image/logo_shoe_store.png";
 import login from "./image/bg-login.png";
 
+const AppImages = {
+  deleteModal,
+  deleteItem,
+  iconNotification,
+  iconBack,
+  iconDropdown,
+  logo,
+  login,
+  editIcon,
+  deleteIcon,
+  deleteModel,
+  banner1,
+  banner2,
+  banner3,
+  imgVN,
+  imgUK,
+};
 
 export default AppImages;
