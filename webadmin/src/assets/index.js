@@ -35,3 +35,25 @@ const AppImages = {
 };
 
 export default AppImages;
+
+
+// const AppImages = {
+//   deleteModal,
+//   deleteItem,
+//   iconNotification,
+//   iconBack,
+//   iconDropdown,
+//   logo,
+//   login,
+//   editIcon,
+//   deleteIcon,
+//   deleteModel,
+//   banner1,
+//   banner2,
+//   banner3,
+//   imgVN,
+//   imgUK,
+// };
+
+// export default AppImages;
+
