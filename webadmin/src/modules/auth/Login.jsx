@@ -30,3 +30,24 @@ const Login = () => {
     
 };
 export default Login;
+
+
+
+// const Login = () => {
+//     const navigate = useNavigate();
+//     const [{ }, dispatch] = useContext(UserContext);
+//     const [username, setUsername] = useState('');
+//     const [password, setPassword] = useState('');
+//     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+//     const [listError, setListError] = useState({
+//         username: '',
+//         password: '',
+//     });
+//     const [formValue, setFormValue] = useState({
+//         username: null,
+//         password: null,
+//     });
+
+    
+// };
+// export default Login;
