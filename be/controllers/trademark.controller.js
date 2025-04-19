@@ -1,5 +1,4 @@
 const { Trademark, Account, Products, ProductDetails } = require("../models");
-const { Op, where } = require("sequelize");
 const jwt = require("jsonwebtoken");
 require("dotenv").config;
 
@@ -68,7 +67,7 @@ const createTrademark = async (req, res) => {
         message: "Thương hiệu đã tồn tại",
       });
     }
-    await Trademark.create({
+    const trademark = await Trademark.create({
       brandCode,
       name,
       status: 1,
@@ -78,6 +77,7 @@ const createTrademark = async (req, res) => {
     res.json({
       status: 200,
       message: "Thêm mới thành công!",
+      data: trademark,
     });
   } catch (error) {
     console.log("Lỗi tạo mới trademark: ", error);
@@ -91,8 +91,10 @@ const createTrademark = async (req, res) => {
 const getTrademarks = async (req, res) => {
   try {
     const trademarks = await Trademark.findAll();
-    const products = await Products.findAll();
-    const productDetails = await ProductDetails.findAll();
+    const products = await Products.findAll({ where: { status: 1 } });
+    const productDetails = await ProductDetails.findAll({
+      where: { status: 1 },
+    });
 
     const trademarkCount = {};
     for (const product of products) {

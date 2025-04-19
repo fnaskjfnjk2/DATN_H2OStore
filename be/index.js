@@ -18,6 +18,8 @@ const discount = require("./route/discount.route");
 const address = require("./route/address.route");
 const cart = require("./route/cart.route");
 const order = require("./route/order.route");
+const payment = require("./route/payment.route");
+const statistical = require("./route/statistical.route");
 
 const bodyParser = require("body-parser");
 
@@ -44,6 +46,10 @@ app.get("/", (req, res) => {
   res.render("ejs/example");
 });
 
+app.get("/thanks", (req, res) => {
+  res.render("configPayment");
+});
+
 app.use("/", accounts);
 app.use("/admin", admin);
 app.use("/user", user);
@@ -56,6 +62,8 @@ app.use("/discount", discount);
 app.use("/address", address);
 app.use("/cart", cart);
 app.use("/order", order);
+app.use("/payment", payment);
+app.use("/statistical", statistical);
 
 db.sequelize.sync().then(() => {
   app.listen(PORT, () => {

@@ -81,7 +81,7 @@ const createDiscount = async (req, res) => {
       message: "Thêm mới thành công!",
     });
   } catch (error) {
-    console.log("Lỗi get color: ", error);
+    console.log("Lỗi thêm mã giảm giá: ", error);
     return res.json({
       status: 500,
       message: "Lỗi server",
@@ -211,13 +211,98 @@ const useDiscount = async (req, res) => {
       style: "currency",
       currency: "VND",
     });
-    const maxPromotion = Number(getDiscount.maximumPromotion);
-    if (total < maxPromotion) {
+
+    if (getDiscount.promotionType === 1) {
+      const newTotal = total - getDiscount.promotionLevel;
+      const finalTotal = newTotal >= 0 ? newTotal : 0;
+      return res.json({
+        status: 200,
+        message: " Thành công",
+        data: finalTotal,
+        discount: getDiscount,
+        totalPromotion: getDiscount.promotionLevel,
+      });
+    }
+    if (getDiscount.promotionType === 2) {
+      const maxPromotion = Number(getDiscount.maximumPromotion);
+      const discountAmount = (total * getDiscount.promotionLevel) / 100;
+      if (discountAmount > maxPromotion) {
+        const newTotal = total - maxPromotion;
+        return res.json({
+          status: 200,
+          message: " Thành công",
+          data: newTotal,
+          discount: getDiscount,
+          totalPromotion: maxPromotion,
+        });
+      }
+      if (discountAmount < maxPromotion) {
+        const newTotal = total - discountAmount;
+        return res.json({
+          status: 200,
+          message: " Thành công",
+          data: newTotal,
+          discount: getDiscount,
+          totalPromotion: discountAmount,
+        });
+      }
+    }
+  } catch (e) {
+    console.log("Lỗi sử dụng phiếu khuyến mại: ", e);
+    return res.json({
+      status: 500,
+      message: "Lỗi server",
+    });
+  }
+};
+
+const useDiscountAdmin = async (req, res) => {
+  const { discount, total, phoneNumber } = req.body;
+  try {
+    if (!discount || !total || !phoneNumber) {
       return res.json({
         status: 400,
-        message: `Mãi khuyến mại này chỉ áp dụng với các hóa đơn có giá trị từ ${formatter.format(
-          getDiscount.promotionLevel
-        )} trở lên`,
+        message: "Thiếu dữ liệu",
+      });
+    }
+    const getDiscount = await Promotion.findOne({ where: { name: discount } });
+    if (!getDiscount) {
+      return res.json({
+        status: 400,
+        message: "Mã không tồn tại",
+      });
+    }
+    if (getDiscount.quantity === 0) {
+      return res.json({
+        status: 400,
+        message: "Đã hết số lượng sử dụng mã giảm giá",
+      });
+    }
+
+    const currentDate = moment();
+    const startDate = moment(getDiscount.startDate);
+    const endDate = moment(getDiscount.endDate);
+    if (
+      startDate.isAfter(currentDate) ||
+      endDate.isBefore(currentDate) ||
+      startDate.isAfter(endDate)
+    ) {
+      return res.json({
+        status: 400,
+        message: "Mã không còn hoạt động",
+      });
+    }
+    const phoneNumberInt = parseInt(phoneNumber, 10);
+    const checkOrderDiscount = await Order.findOne({
+      where: {
+        phoneNumber: phoneNumberInt,
+        discountCode: getDiscount.promotionCode,
+      },
+    });
+    if (checkOrderDiscount) {
+      return res.json({
+        status: 400,
+        message: "Bạn đã sử dụng mã giảm giá này rồi",
       });
     }
     if (getDiscount.promotionType === 1) {
@@ -232,18 +317,31 @@ const useDiscount = async (req, res) => {
       });
     }
     if (getDiscount.promotionType === 2) {
+      const maxPromotion = Number(getDiscount.maximumPromotion);
       const discountAmount = (total * getDiscount.promotionLevel) / 100;
-      const newTotal = total - discountAmount;
-      return res.json({
-        status: 200,
-        message: " Thành công",
-        data: newTotal,
-        discount: getDiscount,
-        totalPromotion: discountAmount,
-      });
+      if (discountAmount > maxPromotion) {
+        const newTotal = total - maxPromotion;
+        return res.json({
+          status: 200,
+          message: " Thành công",
+          data: newTotal,
+          discount: getDiscount,
+          totalPromotion: maxPromotion,
+        });
+      }
+      if (discountAmount < maxPromotion) {
+        const newTotal = total - discountAmount;
+        return res.json({
+          status: 200,
+          message: " Thành công",
+          data: newTotal,
+          discount: getDiscount,
+          totalPromotion: discountAmount,
+        });
+      }
     }
   } catch (e) {
-    console.log("Lỗi sử dụng phiếu khuyến mại: ", e);
+    console.log("Lỗi sử dụng mã khuyến mại tại quầy: ", e);
     return res.json({
       status: 500,
       message: "Lỗi server",
@@ -256,4 +354,5 @@ module.exports = {
   deleteDiscount,
   updateCreate,
   useDiscount,
+  useDiscountAdmin,
 };
