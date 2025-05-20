@@ -209,40 +209,57 @@ const useDiscount = async (req, res) => {
         message: "Bạn đã sử dụng mã giảm giá này rồi",
       });
     }
-    const formatter = new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-    });
-    const maxPromotion = Number(getDiscount.maximumPromotion);
-    if (total < maxPromotion) {
-      return res.json({
-        status: 400,
-        message: `Mãi khuyến mại này chỉ áp dụng với các hóa đơn có giá trị từ ${formatter.format(
-          getDiscount.promotionLevel
-        )} trở lên`,
-      });
-    }
+
     if (getDiscount.promotionType === 1) {
-      const newTotal = total - getDiscount.promotionLevel;
-      const finalTotal = newTotal >= 0 ? newTotal : 0;
-      return res.json({
-        status: 200,
-        message: " Thành công",
-        data: finalTotal,
-        discount: getDiscount,
-        totalPromotion: getDiscount.promotionLevel,
-      });
-    }
-    if (getDiscount.promotionType === 2) {
-      const discountAmount = (total * getDiscount.promotionLevel) / 100;
-      const newTotal = total - discountAmount;
+      if (total < getDiscount.conditionsOfApplication) {
+        return res.json({
+          status: 401,
+          message: "Mã không áp dụng cho đơn hàng này!",
+          data: getDiscount,
+        });
+      }
+      const newTotal =
+        total - getDiscount.promotionLevel > 0
+          ? total - getDiscount.promotionLevel
+          : 0;
       return res.json({
         status: 200,
         message: " Thành công",
         data: newTotal,
         discount: getDiscount,
-        totalPromotion: discountAmount,
+        totalPromotion: getDiscount.promotionLevel,
       });
+    }
+    if (getDiscount.promotionType === 2) {
+      if (total < getDiscount.conditionsOfApplication) {
+        return res.json({
+          status: 401,
+          message: "Mã không áp dụng cho đơn hàng này!",
+          data: getDiscount,
+        });
+      }
+      const maxPromotion = Number(getDiscount.maximumPromotion);
+      const discountAmount = (total * getDiscount.promotionLevel) / 100;
+      if (discountAmount > maxPromotion) {
+        const newTotal = total - maxPromotion;
+        return res.json({
+          status: 200,
+          message: " Thành công",
+          data: newTotal,
+          discount: getDiscount,
+          totalPromotion: maxPromotion,
+        });
+      }
+      if (discountAmount < maxPromotion) {
+        const newTotal = total - discountAmount;
+        return res.json({
+          status: 200,
+          message: " Thành công",
+          data: newTotal,
+          discount: getDiscount,
+          totalPromotion: discountAmount,
+        });
+      }
     }
   } catch (e) {
     console.log("Lỗi sử dụng phiếu khuyến mại: ", e);
@@ -252,6 +269,7 @@ const useDiscount = async (req, res) => {
     });
   }
 };
+
 module.exports = {
   getDiscounts,
   createDiscount,
