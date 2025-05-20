@@ -72,6 +72,7 @@ const createDiscount = async (req, res) => {
       conditionsOfApplication: data.conditionsOfApplication, // Điều kiện áp dụng (1 là giảm tiền || 2 là giảm theo %)
       maximumPromotion: data.maximumPromotion, // mức khuyến mãi tối đa
       quantity: data.quantity,
+      describe: data.describe,
       startDate: data.startDate,
       endDate: data.endDate,
       status: 1,
@@ -105,6 +106,7 @@ const updateCreate = async (req, res) => {
     discount.maximumPromotion = data.maximumPromotion;
     discount.quantity = data.quantity;
     discount.startDate = data.startDate;
+    discount.describe = data.describe;
     discount.endDate = data.endDate;
     await discount.save();
     return res.json({
