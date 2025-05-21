@@ -747,16 +747,3 @@ module.exports = {
 
 
 
-
-// module.exports = {
-//   product,
-//   getProducts,
-//   statusProduct,
-//   getProduct,
-//   deleteProduct,
-//   updateProduct,
-//   getTenProductUser,
-//   getProductById,
-//   getProductByTrademark,
-//   getAllProduct,
-// };
